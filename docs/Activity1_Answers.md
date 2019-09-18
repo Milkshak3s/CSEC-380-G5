@@ -1,7 +1,7 @@
 # Activity 1
 
 1. What is the URL of your GitHub project?
-- 
+- https://github.com/Milkshak3s/CSEC-380-G5
 
 2. How did you break up your projects and what are the security ramifications?
 - 
