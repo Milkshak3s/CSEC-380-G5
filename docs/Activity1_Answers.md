@@ -7,7 +7,8 @@
 - 
 
 3. How did you choose to break down your Epic into various issues (tasks)?
-- 
+- Epics were broken down into tasks by seperating out individual contributions that could be accomplished in a relatively short amount of time, such as defining a process, or adding a Dockerfile to the
+ repo.
 
 4. How long did you assign each sprint to be?
 - 
