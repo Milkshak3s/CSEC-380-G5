@@ -1,0 +1,12 @@
+language: python
+
+services:
+  - docker
+
+before_install:
+  - docker build -t testing:httpd ./server/frontend
+  - docker run -d -p 127.0.0.1:80:80 testing:httpd
+  - pip install -r ./tests/requirements.txt
+
+script:
+  - python -m unittest tests/*.py
