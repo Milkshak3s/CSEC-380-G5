@@ -17,5 +17,4 @@
 - 
 
 6. How do you ensure that after each issue/milestone that security has been verified? How would you identify such issues in an ideal environment?
-- 
-
+- After each issue is closed, features related to the code changed while fixing the issue will be tested manually for vulnerabilities that we know how to test for. At the end of each milestone, the entire application will be manually tested for vulnerabilities, as well as scanned by a web vulnerability scanner such as Nexpose. In an ideal enviornment...
