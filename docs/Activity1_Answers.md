@@ -11,7 +11,7 @@
  repo.
 
 4. How long did you assign each sprint to be?
-- 
+- Each sprint will be 1 week long.
 
 5. Did you deviate from the Agile methodology at all? If yes, what is your reasoning for this?
 - 
