@@ -8,4 +8,9 @@ services:
       MYSQL_USER: 'brickadmin'
       MYSQL_PASSWORD: 'ilikebricks'
       MYSQL_ROOT_PASSWORD: 'youlikebricks'
-
+  
+  frontend:
+    build: ./frontend
+    container_name: frontend
+    ports:
+      - 80:80
