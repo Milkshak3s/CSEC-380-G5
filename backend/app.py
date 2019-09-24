@@ -1,4 +1,4 @@
-from flask import Flask, request, flash, jsonify
+from flask import Flask, request, jsonify
 from flask_sqlalchemy import SQLAlchemy
 import random
 import string
@@ -51,6 +51,7 @@ def new():
             return jsonify({'token': new_key})
 
 
+init_db()
+
 if __name__ == '__main__':
-    init_db()
     app.run()
