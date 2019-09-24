@@ -1,7 +1,9 @@
 import React from 'react';
 import Paper from '@material-ui/core/Paper';
+import Button from '@material-ui/core/Button';
 import Container from '@material-ui/core/Container';
-import Typography from '@material-ui/core/Typography';
+import Grid from '@material-ui/core/Grid';
+import TextField from '@material-ui/core/TextField';
 import { withStyles } from '@material-ui/core/styles';
 
 
@@ -24,9 +26,54 @@ class LoginForm extends React.Component {
       <React.Fragment> 
         <Container maxWidth="sm">
           <Paper className={classes.mainPaper}>
-            <Typography variant="h6" align="center">
-              BIG LOGIN CARD
-            </Typography>
+            <Grid
+              container
+              direction="column"
+              justify="center"
+              alignItems="center"
+            >
+              <Grid
+                  container
+                  item
+                  direction="row"
+              >
+                <TextField
+                  id="username-input"
+                  fullWidth
+                  label="Username"
+                  className={classes.textField}
+                  margin="normal"
+                  variant="outlined"
+                />
+              </Grid>
+              <Grid
+                  container
+                  item
+                  direction="row"
+              >
+                <TextField
+                  id="password-input"
+                  fullWidth
+                  label="Password"
+                  className={classes.textField}
+                  type="password"
+                  autoComplete="current-password"
+                  margin="normal"
+                  variant="outlined"
+                />
+              </Grid>
+              <Grid
+                  container
+                  item
+                  direction="row"
+                  justify="flex-end"
+                  alignItems="flex-start"
+              >
+                <Button variant="contained" color="primary">
+                  LOGIN
+                </Button>
+              </Grid>
+            </Grid>
           </Paper>
         </Container>
       </React.Fragment>
