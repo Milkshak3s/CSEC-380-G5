@@ -9,6 +9,14 @@ services:
       MYSQL_PASSWORD: 'ilikebricks'
       MYSQL_ROOT_PASSWORD: 'youlikebricks'
   
+  backend:
+    build: ./backend
+    container_name: backend
+    depends_on:
+      - database
+    ports:
+      - 5000:5000
+  
   frontend:
     build: ./frontend
     container_name: frontend
