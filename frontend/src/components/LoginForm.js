@@ -6,9 +6,9 @@ import Container from '@material-ui/core/Container';
 import Grid from '@material-ui/core/Grid';
 import TextField from '@material-ui/core/TextField';
 import { withStyles } from '@material-ui/core/styles';
+import Cookies from 'universal-cookie';
 
 import API from '../API';
-import Cookies from 'universal-cookie';
 
 
 const styles = theme => ({
@@ -28,7 +28,8 @@ class LoginForm extends React.Component {
     this.state = {
       username: '',
       password: '',
-      bad_login: false
+      bad_login: false,
+      good_login: false
     }
 
     this.handleSubmit = this.handleSubmit.bind(this);
@@ -64,7 +65,7 @@ class LoginForm extends React.Component {
         else {
           console.log("Successful login w/ token: ", auth_token)
           cookies.set('brickTubeApp', auth_token);
-          this.setState({bad_login: false})
+          this.setState({bad_login: false, good_login: true})
         }
       });
     } catch(e) {
