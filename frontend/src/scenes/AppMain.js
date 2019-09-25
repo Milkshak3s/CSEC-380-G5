@@ -4,6 +4,8 @@ import Typography from '@material-ui/core/Typography'
 import Toolbar from '@material-ui/core/Toolbar';
 import Paper from '@material-ui/core/Paper';
 import { withStyles } from '@material-ui/core/styles';
+import { Button } from '@material-ui/core';
+import Cookies from 'universal-cookie';
 
 
 const styles = theme => ({
@@ -35,6 +37,11 @@ const styles = theme => ({
 
 
 class AppMain extends React.Component {
+  clearCookies = () => {
+    const cookies = new Cookies();
+    cookies.remove('brickTubeApp');
+  }
+
   render() {
     const { classes } = this.props;
 
@@ -49,6 +56,7 @@ class AppMain extends React.Component {
         </AppBar>
         <main className={classes.content}>
           <Paper>TEST MAIN</Paper>
+          <Button onClick={this.clearCookies}>Clear cookie</Button>
         </main>
       </div>
     );

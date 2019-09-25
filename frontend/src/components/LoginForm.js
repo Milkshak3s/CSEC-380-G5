@@ -24,19 +24,44 @@ const styles = theme => ({
 class LoginForm extends React.Component {
   constructor() {
     super();
+    this.state = {
+      username: '',
+      password: ''
+    }
+
     this.handleSubmit = this.handleSubmit.bind(this);
+  }
+
+  onChange = (e) => {
+    this.setState({ [e.target.name]: e.target.value });
   }
 
   handleSubmit = event => {
     event.preventDefault();
 
-    const data = {"username": "admin", "password": "ilovebricks"};
+    const data = {"username": "admin", "password": "adminpassword"};
     const { username } = data;
     const { password } = data;
 
     try {
       const cookies = new Cookies();
-      let tokenResponse = API.post('/auth', {"username": username, "password": password}).then(data => cookies.set('brickTubeApp', data.data.token));
+      const { username, password } = this.state;
+      let tokenResponse = API.post('/auth', {"username": username, "password": password}).then(data => {
+        const auth_token = data.data.token;
+        const error_message = data.data.error;
+        console.log(data.data.token)
+
+        if (typeof error_message != "undefined") {
+          console.log("Login error: ", error_message)
+        }
+        else if (typeof auth_token == "undefined") {
+          console.log("Undefined token: ", auth_token)
+        }
+        else {
+          console.log("Successful login w/ token: ", auth_token)
+          cookies.set('brickTubeApp', auth_token);
+        }
+      });
     } catch(e) {
       console.log("Error contacting auth endpoint", e)
     }
@@ -65,9 +90,11 @@ class LoginForm extends React.Component {
                     id="username-input"
                     fullWidth
                     label="Username"
+                    name="username"
                     className={classes.textField}
                     margin="normal"
                     variant="outlined"
+                    onChange={this.onChange}
                   />
                 </Grid>
                 <Grid
@@ -79,11 +106,13 @@ class LoginForm extends React.Component {
                     id="password-input"
                     fullWidth
                     label="Password"
+                    name="password"
                     className={classes.textField}
                     type="password"
                     autoComplete="current-password"
                     margin="normal"
                     variant="outlined"
+                    onChange={this.onChange}
                   />
                 </Grid>
                 <Grid
