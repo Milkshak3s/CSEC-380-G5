@@ -1,6 +1,7 @@
 import React from 'react';
 import Paper from '@material-ui/core/Paper';
 import Button from '@material-ui/core/Button';
+import Chip from '@material-ui/core/Chip';
 import Container from '@material-ui/core/Container';
 import Grid from '@material-ui/core/Grid';
 import TextField from '@material-ui/core/TextField';
@@ -26,7 +27,8 @@ class LoginForm extends React.Component {
     super();
     this.state = {
       username: '',
-      password: ''
+      password: '',
+      bad_login: false
     }
 
     this.handleSubmit = this.handleSubmit.bind(this);
@@ -49,9 +51,11 @@ class LoginForm extends React.Component {
       let tokenResponse = API.post('/auth', {"username": username, "password": password}).then(data => {
         const auth_token = data.data.token;
         const error_message = data.data.error;
-        console.log(data.data.token)
 
         if (typeof error_message != "undefined") {
+          if (error_message === "Invalid login") {
+            this.setState({ bad_login: true })
+          }
           console.log("Login error: ", error_message)
         }
         else if (typeof auth_token == "undefined") {
@@ -60,6 +64,7 @@ class LoginForm extends React.Component {
         else {
           console.log("Successful login w/ token: ", auth_token)
           cookies.set('brickTubeApp', auth_token);
+          this.setState({bad_login: false})
         }
       });
     } catch(e) {
@@ -74,6 +79,7 @@ class LoginForm extends React.Component {
       <React.Fragment> 
         <Container maxWidth="sm">
           <Paper className={classes.mainPaper}>
+            {this.state.bad_login ? <Chip label="Incorrect Login" color="secondary" className={classes.loginChip} /> : null}
             <form onSubmit={this.handleSubmit}>
               <Grid
                 container
