@@ -1,5 +1,6 @@
 from flask import Flask, request, jsonify
 from flask_sqlalchemy import SQLAlchemy
+from flask_cors import CORS
 import random
 import string
 
@@ -7,6 +8,7 @@ import string
 app = Flask(__name__)
 app.config.from_pyfile('test.cfg')
 db = SQLAlchemy(app)
+cors = CORS(app, resources={r"{}/*".format("/api/v1"): {"origins": "*"}})
 
 
 class User(db.Model):
@@ -39,10 +41,12 @@ def auth_user():
     else:
         new_key = None
         matching_user = User.query.filter_by(username=request_data.get('username')).first()
-
-        if matching_user.password == request_data.get('password'):
+        if matching_user is None:
+            pass
+        elif matching_user.password == request_data.get('password'):
             new_key = ''.join([random.choice(string.ascii_letters + string.digits) for n in range(128)])
             matching_user.auth_token = new_key
+
         db.session.commit()
 
         if new_key is None:
