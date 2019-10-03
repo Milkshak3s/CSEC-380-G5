@@ -5,7 +5,7 @@ import string
 
 
 app = Flask(__name__)
-app.config.from_pyfile('app.cfg')
+app.config.from_pyfile('test.cfg')
 db = SQLAlchemy(app)
 
 
@@ -30,7 +30,7 @@ def init_db():
 
 
 @app.route('/api/v1/auth', methods=['POST'])
-def new():
+def auth_user():
     request_data = request.get_json()
     if request_data.get('username', None) is None:
         return jsonify({'error': 'Username is required'})
@@ -47,6 +47,25 @@ def new():
 
         if new_key is None:
             return jsonify({'error': 'Invalid login'})
+        else:
+            return jsonify({'token': new_key})
+
+
+@app.route('/api/v1/token', methods=['POST'])
+def check_token():
+    request_data = request.get_json()
+    if request_data.get('token', None) is None:
+        return jsonify({'error': 'Token is required'})
+    else:
+        matching_user = User.query.filter_by(username=request_data.get('token')).first()
+
+        if matching_user.password == request_data.get('password'):
+            new_key = ''.join([random.choice(string.ascii_letters + string.digits) for n in range(128)])
+            matching_user.auth_token = new_key
+        db.session.commit()
+
+        if new_key is None:
+            return jsonify({'error': 'Invalid token'})
         else:
             return jsonify({'token': new_key})
 
