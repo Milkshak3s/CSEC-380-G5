@@ -42,10 +42,6 @@ class LoginForm extends React.Component {
   handleSubmit = event => {
     event.preventDefault();
 
-    const data = {"username": "admin", "password": "adminpassword"};
-    const { username } = data;
-    const { password } = data;
-
     try {
       const cookies = new Cookies();
       const { username, password } = this.state;
@@ -66,6 +62,10 @@ class LoginForm extends React.Component {
           console.log("Successful login w/ token: ", auth_token)
           cookies.set('brickTubeApp', auth_token);
           this.setState({bad_login: false, good_login: true})
+        }
+      }).then(data => {
+        if(this.state.good_login === true) {
+          window.location.reload();
         }
       });
     } catch(e) {

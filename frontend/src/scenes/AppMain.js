@@ -40,6 +40,7 @@ class AppMain extends React.Component {
   clearCookies = () => {
     const cookies = new Cookies();
     cookies.remove('brickTubeApp');
+    window.location.reload();
   }
 
   render() {
