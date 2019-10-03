@@ -1,12 +1,18 @@
 import React from 'react';
-import logo from './logo.svg';
+import Cookies from 'universal-cookie';
 import './App.css';
 import AppLogin from './scenes/AppLogin';
-import LoginForm from './components/LoginForm'
+import AppMain from './scenes/AppMain';
 
 function App() {
+  const cookies = new Cookies();
+  const auth_token = cookies.get('brickTubeApp');
+  console.log(auth_token)
+
   return (
-    <AppLogin />
+    <React.Fragment>
+      {(typeof auth_token == "undefined") ? <AppLogin /> : <AppMain />}
+    </React.Fragment>
   );
 }
 
