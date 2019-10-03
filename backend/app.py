@@ -32,8 +32,10 @@ def init_db():
 
 
 @app.route('/api/v1/auth', methods=['POST'])
-def new():
+def auth_user():
     request_data = request.get_json()
+    if request_data is None:
+        return jsonify({'error': 'Need body in POST'})
     if request_data.get('username', None) is None:
         return jsonify({'error': 'Username is required'})
     if request_data.get('password', None) is None:
@@ -53,6 +55,23 @@ def new():
             return jsonify({'error': 'Invalid login'})
         else:
             return jsonify({'token': new_key})
+
+
+@app.route('/api/v1/token', methods=['POST'])
+def check_token():
+    request_data = request.get_json()
+    if request_data is None:
+        return jsonify({'error': 'Need body in POST'})
+    if request_data.get('token', None) is None:
+        return jsonify({'error': 'Token is required'})
+    else:
+        matching_user = None
+        try:
+            matching_user = User.query.filter_by(auth_token=request_data.get('token')).one()
+        except Exception:
+            return jsonify({'error': 'Invalid token'})
+
+        return jsonify({'username': matching_user.username})
 
 
 init_db()
