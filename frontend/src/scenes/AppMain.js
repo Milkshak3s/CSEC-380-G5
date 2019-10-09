@@ -1,11 +1,13 @@
 import React from 'react';
 import AppBar from '@material-ui/core/AppBar';
+import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography'
 import Toolbar from '@material-ui/core/Toolbar';
-import Paper from '@material-ui/core/Paper';
 import { withStyles } from '@material-ui/core/styles';
 import { Button } from '@material-ui/core';
 import Cookies from 'universal-cookie';
+
+import VideoGrid from '../components/VideoGrid';
 
 
 const styles = theme => ({
@@ -23,10 +25,10 @@ const styles = theme => ({
   content: {
     flexGrow: 1,
     padding: theme.spacing(3),
-    minHeight: "80vh",
+    paddingTop: "84px",
     display: "flex",
     flexDirection: "column",
-    justifyContent: "center",
+    justifyContent: "flex-start",
   },
   modularPaper: {
     padding: theme.spacing(3, 2),
@@ -56,8 +58,8 @@ class AppMain extends React.Component {
           </Toolbar>
         </AppBar>
         <main className={classes.content}>
-          <Paper>TEST MAIN</Paper>
           <Button onClick={this.clearCookies}>Clear cookie</Button>
+          <VideoGrid />
         </main>
       </div>
     );

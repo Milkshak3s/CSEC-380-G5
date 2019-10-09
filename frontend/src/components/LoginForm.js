@@ -45,7 +45,7 @@ class LoginForm extends React.Component {
     try {
       const cookies = new Cookies();
       const { username, password } = this.state;
-      let tokenResponse = API.post('/auth', {"username": username, "password": password}).then(data => {
+      API.post('/auth', {"username": username, "password": password}).then(data => {
         const auth_token = data.data.token;
         const error_message = data.data.error;
 
