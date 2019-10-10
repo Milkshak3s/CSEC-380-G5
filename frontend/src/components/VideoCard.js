@@ -15,6 +15,7 @@ import { CardMedia } from '@material-ui/core';
 const styles = theme => ({
   card: {
     maxWidth: 345,
+    minWidth: 345,
   },
   media: {
     height: 0,
@@ -38,6 +39,7 @@ class VideoCard extends React.Component {
       <Card className={classes.card}>
         <CardActionArea>
           <CardHeader
+            titleTypographyProps={{"noWrap": true}}
             avatar={
               <Avatar aria-label={username} className={classes.avatar}>
                 {username.charAt(0)}

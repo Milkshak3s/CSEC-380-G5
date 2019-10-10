@@ -5,9 +5,8 @@ import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography'
 import Toolbar from '@material-ui/core/Toolbar';
 import { withStyles } from '@material-ui/core/styles';
-import { Button, Paper } from '@material-ui/core';
-import Cookies from 'universal-cookie';
 
+import MainSidebar from '../components/MainSidebar';
 import VideoGrid from '../components/VideoGrid';
 
 
@@ -39,9 +38,6 @@ const styles = theme => ({
     maxWidth: "15%",
     minWidth: "15%",
   },
-  sidebarTopItems: {
-    display: "flex",
-  },
   divider: {
     minHeight: "100%",
     maxWidth: "1%",
@@ -51,12 +47,6 @@ const styles = theme => ({
 
 
 class AppMain extends React.Component {
-  clearCookies = () => {
-    const cookies = new Cookies();
-    cookies.remove('brickTubeApp');
-    window.location.reload();
-  }
-
   render() {
     const { classes } = this.props;
 
@@ -72,32 +62,7 @@ class AppMain extends React.Component {
         <main className={classes.content}>
           <Grid container direction="row" spacing={5}>
             <Grid item container className={classes.sidebar}>
-              <Grid item container alignItems="center">
-                <Grid item container 
-                  spacing={2} 
-                  direction="column" 
-                  justifyContent="center" 
-                  alignItems="center" 
-                  className={classes.sidebarTopItems}
-                >
-                  <Grid item>
-                    <Typography variant="h4">
-                      Milkshak3s
-                    </Typography>
-                  </Grid>
-                  <Grid item>
-                    <Button variant="contained" color="primary">Enter URL</Button>
-                  </Grid>
-                  <Grid item>
-                    <Button variant="contained" color="primary">Upload</Button>
-                  </Grid>
-                </Grid>
-                <Grid item container justify="center">
-                  <Grid item>
-                    <Button variant="contained" color="secondary" onClick={this.clearCookies}>LOG OUT</Button>
-                  </Grid>
-                </Grid>
-              </Grid>
+              <MainSidebar />
             </Grid>
             <Grid item>
               <Divider orientation="vertical" />
