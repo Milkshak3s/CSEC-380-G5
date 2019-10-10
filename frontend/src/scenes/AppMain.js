@@ -1,11 +1,13 @@
 import React from 'react';
 import AppBar from '@material-ui/core/AppBar';
+import Divider from '@material-ui/core/Divider';
+import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography'
 import Toolbar from '@material-ui/core/Toolbar';
-import Paper from '@material-ui/core/Paper';
 import { withStyles } from '@material-ui/core/styles';
-import { Button } from '@material-ui/core';
-import Cookies from 'universal-cookie';
+
+import MainSidebar from '../components/MainSidebar';
+import VideoGrid from '../components/VideoGrid';
 
 
 const styles = theme => ({
@@ -23,26 +25,28 @@ const styles = theme => ({
   content: {
     flexGrow: 1,
     padding: theme.spacing(3),
-    minHeight: "80vh",
+    paddingTop: "84px",
     display: "flex",
     flexDirection: "column",
-    justifyContent: "center",
+    justifyContent: "flex-start",
   },
-  modularPaper: {
-    padding: theme.spacing(3, 2),
-    backgroundColor: "#f5f5f5",
+  mainStage: {
+    maxWidth: "80%",
+  },
+  sidebar: {
+    minHeight: "100%",
+    maxWidth: "15%",
+    minWidth: "15%",
+  },
+  divider: {
+    minHeight: "100%",
+    maxWidth: "1%",
   },
   toolbar: theme.mixins.toolbar,
 })
 
 
 class AppMain extends React.Component {
-  clearCookies = () => {
-    const cookies = new Cookies();
-    cookies.remove('brickTubeApp');
-    window.location.reload();
-  }
-
   render() {
     const { classes } = this.props;
 
@@ -56,8 +60,17 @@ class AppMain extends React.Component {
           </Toolbar>
         </AppBar>
         <main className={classes.content}>
-          <Paper>TEST MAIN</Paper>
-          <Button onClick={this.clearCookies}>Clear cookie</Button>
+          <Grid container direction="row" spacing={5}>
+            <Grid item container className={classes.sidebar}>
+              <MainSidebar />
+            </Grid>
+            <Grid item>
+              <Divider orientation="vertical" />
+            </Grid>
+            <Grid item container className={classes.mainStage}>
+              <VideoGrid />
+            </Grid>
+          </Grid>
         </main>
       </div>
     );

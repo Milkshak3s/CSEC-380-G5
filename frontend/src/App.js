@@ -11,7 +11,7 @@ class App extends React.Component {
     const cookies = new Cookies();
   
     try {
-      let tokenResponse = API.post('/token', {"token": token}).then(data => {
+      API.post('/token', {"token": token}).then(data => {
         username = data.data.username;
         const error_message = data.data.error;
 
