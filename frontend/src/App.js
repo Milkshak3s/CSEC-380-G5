@@ -6,6 +6,14 @@ import AppMain from './scenes/AppMain';
 import API from './API';
 
 class App extends React.Component {
+  constructor() {
+    super();
+
+    this.state = {
+      username: null,
+    }
+  }
+
   checkToken(token) {
     let username = null;
     const cookies = new Cookies();
@@ -18,13 +26,16 @@ class App extends React.Component {
         if (typeof error_message != "undefined") {
           console.log("Token error: ", error_message)
           cookies.remove('brickTubeApp');
+          cookies.remove('brickTubeAppUser');
         }
         else if (typeof username == "undefined") {
-          console.log("Undefined username: ", username)
+          console.log("Undefined username: ", username);
           cookies.remove('brickTubeApp');
+          cookies.remove('brickTubeAppUser');
         }
         else {
-          console.log("Valid token for user: ", username)
+          console.log("Valid token for user: ", username);
+          cookies.set('brickTubeAppUser', username);
         }
       }).then(data => {
         if(typeof cookies.get('brickTubeApp') == "undefined") {

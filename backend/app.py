@@ -152,6 +152,7 @@ def upload_file():
 
 @app.route('/api/v1/videos', methods=['GET'])
 def get_videos():
+    # TODO: Check auth header
     matching_videos = Video.query.all()
     json_return = []
     for video in matching_videos:

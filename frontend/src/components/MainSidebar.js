@@ -22,6 +22,7 @@ class MainSidebar extends React.Component {
 
   render() {
     const { classes } = this.props;
+    const { username } = this.props;
 
     return (
       <React.Fragment>
@@ -35,7 +36,7 @@ class MainSidebar extends React.Component {
           >
             <Grid item>
               <Typography variant="h4">
-                Milkshak3s
+                {username}
               </Typography>
             </Grid>
             <Grid item>
