@@ -35,7 +35,8 @@ const styles = theme => ({
     maxWidth: "80%",
   },
   sidebar: {
-    minHeight: "100%",
+    maxHeight: "100%",
+    minHeight: "700px",
     maxWidth: "15%",
     minWidth: "15%",
   },

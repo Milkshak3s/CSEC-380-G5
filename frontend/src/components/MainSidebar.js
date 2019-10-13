@@ -30,7 +30,6 @@ class MainSidebar extends React.Component {
           <Grid item container 
             spacing={2} 
             direction="column" 
-            justifyContent="center" 
             alignItems="center" 
             className={classes.sidebarTopItems}
           >

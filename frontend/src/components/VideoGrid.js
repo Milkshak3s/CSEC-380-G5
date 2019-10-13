@@ -2,6 +2,7 @@ import React from 'react';
 import { withStyles } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
 
+import API from '../API';
 import VideoCard from './VideoCard';
 
 
@@ -13,68 +14,38 @@ const styles = theme => ({
 
 
 class VideoGrid extends React.Component {
-  render() {
-    const { classes } = this.props;
+  constructor() {
+    super();
 
-    const videoData = [
-      {
-        "title": "Bricks",
-        "description": "Lorem ipsum",
-        "username": "Milkshak3s",
-        "imageloc": "https://i.ytimg.com/vi/5Umge0eM1Hw/maxresdefault.jpg",
-        "videoloc": "",
-      },
-      {
-        "title": "Bricks 2",
-        "description": "Lorem ipsum",
-        "username": "Timmy",
-        "imageloc": "",
-        "videoloc": "",
-      },
-      {
-        "title": "Bricks 3: Return of Bricks",
-        "description": "Lorem ipsum",
-        "username": "Milkshak3s",
-        "imageloc": "https://i.ytimg.com/vi/5Umge0eM1Hw/maxresdefault.jpg",
-        "videoloc": "",
-      },
-      {
-        "title": "Bricks 4: THE BIG BRICKS OF THE WEST",
-        "description": "Lorem ipsum",
-        "username": "Knif3",
-        "imageloc": "https://i.ytimg.com/vi/5Umge0eM1Hw/maxresdefault.jpg",
-        "videoloc": "",
-      },
-      {
-        "title": "Most Bricks (tm)",
-        "description": "Lorem ipsum",
-        "username": "Milkshak3s",
-        "imageloc": "https://i.ytimg.com/vi/5Umge0eM1Hw/maxresdefault.jpg",
-        "videoloc": "",
-      },
-      {
-        "title": "BRICK CITY",
-        "description": "Lorem ipsum",
-        "username": "Milkshak3s",
-        "imageloc": "https://i.ytimg.com/vi/5Umge0eM1Hw/maxresdefault.jpg",
-        "videoloc": "",
-      },
-    ]
+    this.state = { videos: [] }
+  }
+
+  componentDidMount() {
+    API.get(`/videos`)
+      .then(res => {
+        const videos = res.data;
+        this.setState({ videos });
+      })
+  };
+
+  render() {
+    console.log('videos post', this.state.videos)
 
     return (
       <React.Fragment>
         <Grid container justify="space-between" spacing={4}>
-          {videoData.map((video, index) =>{
+          {this.state.videos.map((video, index) => {
             console.log(video)
-            const { username, title, description, imageloc } = video;
-            
+            const { username, title, description, thumbnail_link } = video;
+      
             return (
-              <Grid item zeroMinWidth>
+              <Grid item zeroMinWidth key={title + index}>
                 <VideoCard
                   username={username}
-                  image={imageloc}
+                  image={thumbnail_link}
                   title={title}
                   description={description}
+                  key={title + index + '1'}
                 />
               </Grid>
             )
