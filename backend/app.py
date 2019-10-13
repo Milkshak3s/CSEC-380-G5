@@ -1,6 +1,8 @@
 from flask import Flask, request, jsonify
 from flask_sqlalchemy import SQLAlchemy
 from flask_cors import CORS
+from werkzeug.utils import secure_filename
+import os
 import random
 import string
 
@@ -9,6 +11,8 @@ app = Flask(__name__)
 app.config.from_pyfile('test.cfg')
 db = SQLAlchemy(app)
 cors = CORS(app, resources={r"{}/*".format("/api/v1"): {"origins": "*"}})
+
+ALLOWED_EXTENSIONS = set(['mp4'])
 
 
 class User(db.Model):
@@ -23,12 +27,46 @@ class User(db.Model):
         self.password = password
 
 
+class Video(db.Model):
+    __tablename__ = 'videos'
+    id = db.Column('user_id', db.Integer, primary_key=True)
+    username = db.Column(db.String(128))
+    title = db.Column(db.String(128))
+    description = db.Column(db.String(2048))
+    video_link = db.Column(db.String(128))
+    thumbnail_link = db.Column(db.String(128))
+
+    def __init__(self, username, title, description, video_link, thumbnail_link):
+        self.username = username
+        self.title = title
+        self.description = description
+        self.video_link = video_link
+        self.thumbnail_link = thumbnail_link
+
+
 def init_db():
     db.drop_all()
     db.create_all()
     admin = User("admin", "adminpassword")
+    milkshak3s = User("Milkshak3s", "adminpassword")
     db.session.add(admin)
+    db.session.add(milkshak3s)
     db.session.commit()
+
+
+def allowed_file(filename):
+    return '.' in filename and \
+           filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
+
+
+def check_token_user(token):
+    matching_user = None
+    try:
+        matching_user = User.query.filter_by(auth_token=token).one()
+    except Exception:
+        return None
+
+    return matching_user.username
 
 
 @app.route('/api/v1/auth', methods=['POST'])
@@ -65,13 +103,68 @@ def check_token():
     if request_data.get('token', None) is None:
         return jsonify({'error': 'Token is required'})
     else:
-        matching_user = None
-        try:
-            matching_user = User.query.filter_by(auth_token=request_data.get('token')).one()
-        except Exception:
+        matching_user = check_token_user(request_data.get('token'))
+        if matching_user is None:
             return jsonify({'error': 'Invalid token'})
+        return jsonify({'username': matching_user})
 
-        return jsonify({'username': matching_user.username})
+
+@app.route('/api/v1/videos/upload', methods=['POST'])
+def upload_file():
+    request_data = request.form
+    token = request_data.get("token")
+    title = request_data.get("title")
+    desc = request_data.get("description")
+
+    # part checking
+    if request_data is None:
+        return jsonify({'error': 'Need body in POST'})
+    if token is None:
+        return jsonify({'error': 'Missing auth token'})
+    if title is None:
+        return jsonify({'error': 'Missing title'})
+    if desc is None:
+        return jsonify({'error': 'Missing description'})
+    if 'file' not in request.files:
+        return jsonify({'error': 'No file part'})
+
+    # user checking
+    matching_user = check_token_user(token)
+    if matching_user is None:
+        return jsonify({'error': 'Invalid token'})
+
+    # process file
+    file = request.files['file']
+    video_url = ""
+    if file.filename == '':
+        return jsonify({'error': 'No selected file'})
+    if file and allowed_file(file.filename):
+        filename = secure_filename(file.filename)
+        file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+        video_url = '{}/static/{}'.format(app.config['HOSTLOC'], filename)
+
+        # create DB object
+        new_video = Video(matching_user, title, desc, video_url, "")
+        db.session.add(new_video)
+        db.session.commit()
+        return jsonify({'file': video_url})
+
+
+@app.route('/api/v1/videos', methods=['GET'])
+def get_videos():
+    matching_videos = Video.query.all()
+    json_return = []
+    for video in matching_videos:
+        video_data = {
+            'title': video.title,
+            'description': video.description,
+            'username': video.username,
+            'video_link': video.video_link,
+            'thumbnail_link': video.thumbnail_link
+        }
+        json_return.append(video_data)
+
+    return jsonify(json_return)
 
 
 init_db()
