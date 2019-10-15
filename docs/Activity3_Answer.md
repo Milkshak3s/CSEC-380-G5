@@ -28,7 +28,7 @@ In order to protect against these, three methods are widely used.
 
 * **Implementation of HttpOnly flag:** With the HttpOnly flag, the cookie cannot be read by javascript code. The cookie can be only read through a valid Http request. With the flag, the browser will prevent any javascript code trying to access the cookie. 
 
-* ** Implementation of Secure flag:** With the Secure flag, the browser is instructed to only return the cookie information to the application over HTTPS. This would be another layer of protection with the HTTPS. 
+* **Implementation of Secure flag:** With the Secure flag, the browser is instructed to only return the cookie information to the application over HTTPS. This would be another layer of protection with the HTTPS. 
 
 ### 3. How do you ensure that if your database gets stolen passwords aren’t exposed?
 
