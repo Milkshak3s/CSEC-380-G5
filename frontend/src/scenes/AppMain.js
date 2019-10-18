@@ -5,6 +5,7 @@ import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography'
 import Toolbar from '@material-ui/core/Toolbar';
 import { withStyles } from '@material-ui/core/styles';
+import Cookies from 'universal-cookie';
 
 import MainSidebar from '../components/MainSidebar';
 import VideoGrid from '../components/VideoGrid';
@@ -34,7 +35,8 @@ const styles = theme => ({
     maxWidth: "80%",
   },
   sidebar: {
-    minHeight: "100%",
+    maxHeight: "100%",
+    minHeight: "700px",
     maxWidth: "15%",
     minWidth: "15%",
   },
@@ -49,6 +51,9 @@ const styles = theme => ({
 class AppMain extends React.Component {
   render() {
     const { classes } = this.props;
+    const cookies = new Cookies();
+    const username = cookies.get('brickTubeAppUser');
+    console.log('TEST TEST TEST', username)
 
     return (
       <div className={classes.root}>
@@ -62,7 +67,7 @@ class AppMain extends React.Component {
         <main className={classes.content}>
           <Grid container direction="row" spacing={5}>
             <Grid item container className={classes.sidebar}>
-              <MainSidebar />
+              <MainSidebar username={username} />
             </Grid>
             <Grid item>
               <Divider orientation="vertical" />

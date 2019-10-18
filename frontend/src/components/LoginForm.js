@@ -61,6 +61,7 @@ class LoginForm extends React.Component {
         else {
           console.log("Successful login w/ token: ", auth_token)
           cookies.set('brickTubeApp', auth_token);
+          cookies.set('brickTubeAppUser', username);
           this.setState({bad_login: false, good_login: true})
         }
       }).then(data => {

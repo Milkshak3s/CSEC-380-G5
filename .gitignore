@@ -1,3 +1,4 @@
 tests/__pycache__/
 csec_380_mockup.sketch
 .vscode/
+backend/static/*.mp4
