@@ -2,8 +2,9 @@
 
 ### 1. How do you ensure that users that navigate to the protected pages cannot bypass authentication requirements?
 
-Validation of the sessionID, or a token upon visiting the web application is a good way to ensure the users to navigate to protected pages. For example, in Group 5’s code base, we have implemented the checking of authentication token, in the frontend, upon the first access of the web application. 
+Validation of the sessionID, or a token upon visiting the web application is a good way to ensure the users to navigate to protected pages. For example, in Group 5’s code base, we have implemented the checking of authentication token, in the frontend and in the backend. In the front end, the application checks for the authentication token, and if it's undefined, the application redirects the user back to the AppLogin endpoint. 
 
+**Frontend**
 ```    
   return (
       <React.Fragment>
@@ -12,7 +13,23 @@ Validation of the sessionID, or a token upon visiting the web application is a g
     );
 ```
 
-This means that any client with auth_token of “undefined” will be redirected to AppLogin, which is the login page. 
+In the backend, all of the api routes will check for the user authentication token in order to protect the pages from authentication requirement bypass. 
+
+**Backend - app.py @app.route('/api/v1/videos/upload', methods=['POST'])**
+```
+    # user checking
+    matching_user = check_token_user(token)
+    if matching_user is None:
+        return jsonify({'error': 'Invalid token'})
+```
+
+**Backend - app.py @app.route('/api/v1/token', methods=['POST'])**
+```
+    else:
+        matching_user = check_token_user(request_data.get('token'))
+        if matching_user is None:
+            return jsonify({'error': 'Invalid token'})
+```
 
 ### 2. How do you protect against session fixation?
 
