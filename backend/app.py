@@ -115,6 +115,7 @@ def upload_file():
     token = request_data.get("token")
     title = request_data.get("title")
     desc = request_data.get("description")
+    video_link = request_data.get("video_link")
 
     # part checking
     if request_data is None:
@@ -125,13 +126,22 @@ def upload_file():
         return jsonify({'error': 'Missing title'})
     if desc is None:
         return jsonify({'error': 'Missing description'})
-    if 'file' not in request.files:
-        return jsonify({'error': 'No file part'})
 
     # user checking
     matching_user = check_token_user(token)
     if matching_user is None:
         return jsonify({'error': 'Invalid token'})
+
+    # file checking
+    if 'file' not in request.files:
+        if video_link is None:
+            return jsonify({'error': 'No file part or video_link'})
+        else:
+            # create DB object
+            new_video = Video(matching_user, title, desc, video_link, "")
+            db.session.add(new_video)
+            db.session.commit()
+            return jsonify({'file': video_link})
 
     # process file
     file = request.files['file']
