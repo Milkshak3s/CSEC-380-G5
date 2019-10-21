@@ -179,12 +179,17 @@ def get_videos():
     return jsonify(json_return)
 
 
-@app.route('/api/v1/videos/<int:video_id>', methods=['GET'])
+@app.route('/api/v1/videos/<int:video_id>', methods=['GET', 'DELETE'])
 def get_single_video(video_id):
     # TODO: Check auth header
+    try:
+        matching_video = Video.query.filter_by(id=video_id).one()
+    except Exception:
+        return jsonify({'error': 'video with id {} not found'.format(video_id)})
+    if matching_video is None:
+        return jsonify({'error': 'video with id {} not found'.format(video_id)})
 
     if request.method == "GET":
-        matching_video = Video.query.filter_by(id=video_id).one()
 
         video_data = {
             'id': matching_video.id,
@@ -196,6 +201,12 @@ def get_single_video(video_id):
         }
 
         return jsonify(video_data)
+
+    if request.method == "DELETE":
+        db.session.delete(matching_video)
+        db.session.commit()
+
+        return jsonify({'message': 'success'})
 
     return jsonify({'error': 'invalid method'})
 
