@@ -167,6 +167,7 @@ def get_videos():
     json_return = []
     for video in matching_videos:
         video_data = {
+            'id': video.id,
             'title': video.title,
             'description': video.description,
             'username': video.username,
@@ -176,6 +177,38 @@ def get_videos():
         json_return.append(video_data)
 
     return jsonify(json_return)
+
+
+@app.route('/api/v1/videos/<int:video_id>', methods=['GET', 'DELETE'])
+def get_single_video(video_id):
+    # TODO: Check auth header
+    try:
+        matching_video = Video.query.filter_by(id=video_id).one()
+    except Exception:
+        return jsonify({'error': 'video with id {} not found'.format(video_id)})
+    if matching_video is None:
+        return jsonify({'error': 'video with id {} not found'.format(video_id)})
+
+    if request.method == "GET":
+
+        video_data = {
+            'id': matching_video.id,
+            'title': matching_video.title,
+            'description': matching_video.description,
+            'username': matching_video.username,
+            'video_link': matching_video.video_link,
+            'thumbnail_link': matching_video.thumbnail_link
+        }
+
+        return jsonify(video_data)
+
+    if request.method == "DELETE":
+        db.session.delete(matching_video)
+        db.session.commit()
+
+        return jsonify({'message': 'success'})
+
+    return jsonify({'error': 'invalid method'})
 
 
 init_db()
