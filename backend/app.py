@@ -167,6 +167,7 @@ def get_videos():
     json_return = []
     for video in matching_videos:
         video_data = {
+            'id': video.id,
             'title': video.title,
             'description': video.description,
             'username': video.username,
@@ -176,6 +177,27 @@ def get_videos():
         json_return.append(video_data)
 
     return jsonify(json_return)
+
+
+@app.route('/api/v1/videos/<int:video_id>', methods=['GET'])
+def get_single_video(video_id):
+    # TODO: Check auth header
+
+    if request.method == "GET":
+        matching_video = Video.query.filter_by(id=video_id).one()
+
+        video_data = {
+            'id': matching_video.id,
+            'title': matching_video.title,
+            'description': matching_video.description,
+            'username': matching_video.username,
+            'video_link': matching_video.video_link,
+            'thumbnail_link': matching_video.thumbnail_link
+        }
+
+        return jsonify(video_data)
+
+    return jsonify({'error': 'invalid method'})
 
 
 init_db()
