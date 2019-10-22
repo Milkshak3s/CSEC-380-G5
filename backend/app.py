@@ -2,6 +2,7 @@ from flask import Flask, request, jsonify
 from flask_sqlalchemy import SQLAlchemy
 from flask_cors import CORS
 from werkzeug.utils import secure_filename
+from hashlib import sha256
 import os
 import random
 import string
@@ -24,8 +25,14 @@ class User(db.Model):
 
     def __init__(self, username, password):
         self.username = username
-        self.password = password
+        self.set_password(password)
 
+    def set_password(self, password):
+        self.password = str(sha256(password.encode()).hexdigest())
+
+    def check_password(self, password):
+        pwd_test = str(sha256(password.encode()).hexdigest())
+        return self.password
 
 class Video(db.Model):
     __tablename__ = 'videos'
@@ -83,7 +90,7 @@ def auth_user():
         matching_user = User.query.filter_by(username=request_data.get('username')).first()
         if matching_user is None:
             pass
-        elif matching_user.password == request_data.get('password'):
+        elif matching_user.check_password(request_data.get('password')):
             new_key = ''.join([random.choice(string.ascii_letters + string.digits) for n in range(128)])
             matching_user.auth_token = new_key
 
