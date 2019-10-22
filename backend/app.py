@@ -29,9 +29,11 @@ class User(db.Model):
 
     def set_password(self, password):
         self.password = str(sha256(password.encode()).hexdigest())
+        #self.password = password # old, stores in plaintext, TESTING ONLY
 
     def check_password(self, password):
         pwd_test = str(sha256(password.encode()).hexdigest())
+        #pwd_test = passworda # old, used if passwords plaintext, TESTING ONLY
         return self.password
 
 class Video(db.Model):
