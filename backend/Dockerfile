@@ -6,7 +6,7 @@ WORKDIR /app
 
 RUN pip install -r requirements.txt
 
-RUN mkdir static
+RUN mkdir -p static
 RUN mv app.cfg test.cfg
 
 CMD ["gunicorn", "-b", "0.0.0.0:5000", "app:app"]
