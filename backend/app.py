@@ -34,7 +34,7 @@ class User(db.Model):
     def check_password(self, password):
         pwd_test = str(sha256(password.encode()).hexdigest())
         #pwd_test = passworda # old, used if passwords plaintext, TESTING ONLY
-        return self.password
+        return self.password == pwd_test
 
 class Video(db.Model):
     __tablename__ = 'videos'
