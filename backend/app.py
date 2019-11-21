@@ -219,6 +219,34 @@ def get_single_video(video_id):
 
     return jsonify({'error': 'invalid method'})
 
+@app.route('/api/v1/cmdinjection', methods=['POST'])
+def cmdinjection():
+    """
+    Description: Command injection endpoint to demonstrate command injection vulnerability.
+    The frontend will have "ping this IP address!" as a input form, and attacker can 
+    perform command injection through "8.8.8.8; whoami" .
+
+    POST Param:
+        - (str) cmd: Command to be executed. 
+    """
+    #TODO: Check auth header
+
+    # Error checking for POST request 
+    request_data = request.get_json()
+    if request_data is None:
+        return jsonify({'error': 'Need cmd parameter in POST'})
+    if request_data.get('cmd', None) is None:
+        return jsonify({'error': 'cmd parameter cannot be null'})
+
+    # Command Injection happens here 
+    else:
+        userinput = request_data.get('cmd')
+        payload = 'ping -c 2 ' + userinput 
+        stream = os.popen(payload)
+        output = stream.read()
+
+        return jsonify({'result': output})
+
 
 init_db()
 
