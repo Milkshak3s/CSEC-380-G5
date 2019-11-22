@@ -5,6 +5,8 @@ import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography'
 import Cookies from 'universal-cookie';
 
+import LinkModal from './LinkModal';
+
 
 const styles = theme => ({
   nothing: {
@@ -39,7 +41,7 @@ class MainSidebar extends React.Component {
               </Typography>
             </Grid>
             <Grid item>
-              <Button variant="contained" color="primary">Enter URL</Button>
+              <LinkModal />
             </Grid>
             <Grid item>
               <Button variant="contained" color="primary">Upload</Button>
