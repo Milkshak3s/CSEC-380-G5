@@ -1,5 +1,7 @@
 # Activity 3
 
+[Link to tests] (https://github.com/Milkshak3s/CSEC-380-G5/tree/master/tests "Test cases")
+
 ### 1. How do you ensure that users that navigate to the protected pages cannot bypass authentication requirements?
 
 Validation of the sessionID, or a token upon visiting the web application is a good way to ensure the users to navigate to protected pages. For example, in Group 5’s code base, we have implemented the checking of authentication token, in the frontend and in the backend. In the front end, the application checks for the authentication token, and if it's undefined, the application redirects the user back to the AppLogin endpoint. 
