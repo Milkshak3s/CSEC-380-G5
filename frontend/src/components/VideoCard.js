@@ -10,6 +10,12 @@ import CardHeader from '@material-ui/core/CardHeader';
 import Typography from '@material-ui/core/Typography';
 import { red } from '@material-ui/core/colors';
 import { CardMedia } from '@material-ui/core';
+import Link from '@material-ui/core/Link';
+import {
+  BrowserRouter as Router,
+} from "react-router-dom";
+
+import API from '../API';
 
 
 const styles = theme => ({
@@ -31,40 +37,60 @@ const styles = theme => ({
 
 
 class VideoCard extends React.Component {
+  constructor(props) {
+    super(props);
+    this.deleteVideo = this.deleteVideo.bind(this);
+}
+
+  deleteVideo() {
+    const { id } = this.props;
+
+    API.delete(`/videos/${id}`)
+      .then(res => {
+        const delRes = res.data;
+        console.log(delRes);
+        window.location.reload();
+      })
+  }
+
   render() {
     const { classes } = this.props;
     const { username, title, description, image } = this.props; 
 
     return (
-      <Card className={classes.card}>
-        <CardActionArea>
-          <CardHeader
-            titleTypographyProps={{"noWrap": true}}
-            avatar={
-              <Avatar aria-label={username} className={classes.avatar}>
-                {username.charAt(0)}
-              </Avatar>
-            }
-            title={title}
-            subheader={username}
-          />
-          <CardMedia
-            className={classes.media}
-            image={image}
-            title={title}
-          />
-          <CardContent>
-            <Typography noWrap variant="body2" color="textSecondary" component="p">
-              {description}
-            </Typography>
-          </CardContent>
-        </CardActionArea>
-        <CardActions className={classes.cardActions}>
-          <Button size="small" color="primary">
-            Delete
-          </Button>
-        </CardActions>
-      </Card>
+      <Router>
+        <Card className={classes.card}>
+          <Link href={`/videos/${1}`}>
+            <CardActionArea>
+              <CardHeader
+                titleTypographyProps={{"noWrap": true}}
+                avatar={
+                  <Avatar aria-label={username} className={classes.avatar}>
+                    {username.charAt(0)}
+                  </Avatar>
+                }
+                title={title}
+                subheader={username}
+              />
+              <CardMedia
+                className={classes.media}
+                image={image}
+                title={title}
+              />
+              <CardContent>
+                <Typography noWrap variant="body2" color="textSecondary" component="p">
+                  {description}
+                </Typography>
+              </CardContent>
+            </CardActionArea>
+          </Link>
+          <CardActions className={classes.cardActions}>
+            <Button size="small" color="primary" onClick={this.deleteVideo}>
+              Delete
+            </Button>
+          </CardActions>
+        </Card>
+      </Router>
     )
   }
 }
