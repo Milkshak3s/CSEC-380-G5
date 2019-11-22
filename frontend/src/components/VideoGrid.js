@@ -3,10 +3,7 @@ import { withStyles } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
 import API from '../API';
 import VideoCard from './VideoCard';
-import Link from '@material-ui/core/Link';
-import {
-  BrowserRouter as Router,
-} from "react-router-dom";
+
 
 
 const styles = theme => ({
@@ -36,28 +33,25 @@ class VideoGrid extends React.Component {
 
     return (
       <React.Fragment>
-        <Router>
-          <Link href={`/videos/${1}`}>
-            <Grid container justify="space-between" spacing={4}>
-              {this.state.videos.map((video, index) => {
-                console.log(video)
-                const { username, title, description, thumbnail_link } = video;
-          
-                return (
-                  <Grid item zeroMinWidth key={title + index}>
-                    <VideoCard
-                      username={username}
-                      image={thumbnail_link}
-                      title={title}
-                      description={description}
-                      key={title + index + '1'}
-                    />
-                  </Grid>
-                )
-              })}
-            </Grid>
-          </Link>
-        </Router>
+        <Grid container justify="space-between" spacing={4}>
+          {this.state.videos.map((video, index) => {
+            console.log(video)
+            const { username, title, description, thumbnail_link, id } = video;
+      
+            return (
+              <Grid item zeroMinWidth key={title + index}>
+                <VideoCard
+                  username={username}
+                  image={thumbnail_link}
+                  title={title}
+                  description={description}
+                  key={title + index + '1'}
+                  id={id}
+                />
+              </Grid>
+            )
+          })}
+        </Grid>
       </React.Fragment>
     )
   }
