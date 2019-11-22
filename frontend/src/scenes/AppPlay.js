@@ -57,7 +57,10 @@ class AppPlay extends React.Component {
   }
 
   componentDidMount() {
-    API.get(`/videos/1`)
+    const { videoID } = this.props.match.params
+    console.log(videoID)
+
+    API.get(`/videos/${videoID}`)
       .then(res => {
         const video = res.data;
         console.log(video);
@@ -69,7 +72,6 @@ class AppPlay extends React.Component {
     const { classes } = this.props;
     const cookies = new Cookies();
     const username = cookies.get('brickTubeAppUser');
-    console.log('TEST TEST TEST', username)
 
     return (
       <div className={classes.root}>

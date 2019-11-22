@@ -65,9 +65,7 @@ class App extends React.Component {
     return (
       <Router>
         <Switch>
-          <Route path="/videos/:videoID">
-            <AppPlay />
-          </Route>
+          <Route path="/videos/:videoID" component={AppPlay} />
           <Route path="/">
             {(typeof auth_token == "undefined") ? <AppLogin /> : <AppMain />}
           </Route>
