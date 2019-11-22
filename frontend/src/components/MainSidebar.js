@@ -6,6 +6,7 @@ import Typography from '@material-ui/core/Typography'
 import Cookies from 'universal-cookie';
 
 import LinkModal from './LinkModal';
+import UploadModal from './UploadModal';
 
 
 const styles = theme => ({
@@ -44,7 +45,7 @@ class MainSidebar extends React.Component {
               <LinkModal />
             </Grid>
             <Grid item>
-              <Button variant="contained" color="primary">Upload</Button>
+              <UploadModal />
             </Grid>
           </Grid>
           <Grid item container justify="center">
