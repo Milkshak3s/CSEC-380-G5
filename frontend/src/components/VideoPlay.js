@@ -1,20 +1,29 @@
 import React from 'react';
 import { withStyles } from '@material-ui/core/styles';
+import Paper from '@material-ui/core/Paper';
+import VideoPlayer from 'react-simple-video-player';
 
 
 const styles = theme => ({
-  nothing: {
-    padding: "0px",
+  videoContainer: {
+    maxHeight: "500px",
+    padding: "80px",
   },
 });
 
 
 class VideoPlay extends React.Component {
   render() {
-    return (
-      <React.Fragment>
+    const { classes } = this.props;
 
-      </React.Fragment>
+    return (
+      <Paper className={classes.videoContainer } >
+        <VideoPlayer
+          height={500}
+          poster={ this.props.screenshot }
+          url={ this.props.video_link }
+        />
+      </Paper>
     )
   }
 }

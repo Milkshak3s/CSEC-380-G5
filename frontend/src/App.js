@@ -3,7 +3,13 @@ import Cookies from 'universal-cookie';
 import './App.css';
 import AppLogin from './scenes/AppLogin';
 import AppMain from './scenes/AppMain';
+import AppPlay from './scenes/AppPlay';
 import API from './API';
+import {
+  BrowserRouter as Router,
+  Switch,
+  Route,
+} from "react-router-dom";
 
 class App extends React.Component {
   constructor() {
@@ -57,9 +63,16 @@ class App extends React.Component {
     }
 
     return (
-      <React.Fragment>
-        {(typeof auth_token == "undefined") ? <AppLogin /> : <AppMain />}
-      </React.Fragment>
+      <Router>
+        <Switch>
+          <Route path="/videos/:videoID">
+            <AppPlay />
+          </Route>
+          <Route path="/">
+            {(typeof auth_token == "undefined") ? <AppLogin /> : <AppMain />}
+          </Route>
+        </Switch>
+      </Router>
     );
   }
 }

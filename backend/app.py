@@ -200,12 +200,16 @@ def get_single_video(video_id):
 
     if request.method == "GET":
 
+        video_link = matching_video.video_link
+        if video_link[0:4] != "http":
+            video_link = "http://" + video_link
+
         video_data = {
             'id': matching_video.id,
             'title': matching_video.title,
             'description': matching_video.description,
             'username': matching_video.username,
-            'video_link': matching_video.video_link,
+            'video_link': video_link,
             'thumbnail_link': matching_video.thumbnail_link
         }
 
