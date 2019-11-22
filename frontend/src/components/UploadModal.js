@@ -48,7 +48,8 @@ class LinkModal extends React.Component
       this.state = {
         title: '',
         description: '',
-        link: '',
+        selectedFile: null,
+        loaded: false,
         open: false,
         sending: false
       }
@@ -59,22 +60,22 @@ class LinkModal extends React.Component
     }
 
     handleSubmit = event => {
-      const { title, description, link } = this.state;
+      const { title, description, selectedFile } = this.state;
       const cookies = new Cookies();
       const auth_token = cookies.get('brickTubeApp');
 
       var bodyFormData = new FormData();
-      bodyFormData.set('title', title)
-      bodyFormData.set('description', description)
-      bodyFormData.set('video_link', link)
+      bodyFormData.set('title', title);
+      bodyFormData.set('description', description);
+      bodyFormData.set('file', selectedFile);
       bodyFormData.set('token', auth_token);
 
-      this.setState({sending: true})
+      this.setState({sending: true});
       API.post('/videos/upload', bodyFormData).then(data => {
         console.log(data.data);
         this.setState({open: false});
         window.location.reload(); 
-        this.setState({sending: false})
+        this.setState({sending: false});
       });
     }
 
@@ -86,6 +87,12 @@ class LinkModal extends React.Component
       }
     }
 
+    onUploadChangeHandler = event => {
+      this.setState({
+        selectedFile: event.target.files[0],
+        loaded: true,
+      })
+    }
 
     render() {
          
@@ -95,11 +102,11 @@ class LinkModal extends React.Component
           <div>
             <div style={this.state.CreateMemberButton}>
               <Button variant="outlined" color="primary" onClick={this.handleOpen}>
-                Enter URL
+                Upload
               </Button>
             </div>
             <Dialog open={this.state.open} onClose={this.handleClose} aria-labelledby="form-dialog-title">
-              <DialogTitle id="form-dialog-title">Enter URL</DialogTitle>
+              <DialogTitle id="form-dialog-title">Upload</DialogTitle>
               <DialogContent>
                 <DialogContentText>
                   Please enter video information.
@@ -115,7 +122,7 @@ class LinkModal extends React.Component
                     fullWidth
                     
                 />
-                
+
                 <TextField
                   margin="dense"
                   id="description"
@@ -125,14 +132,7 @@ class LinkModal extends React.Component
                   fullWidth
                 />
 
-                <TextField
-                    margin = "dense"
-                    id = "link"
-                    label = "Video Link"
-                    type="text"
-                    onChange={this.onChange}
-                    fullWidth
-                />
+                <input type="file" name="file" onChange={this.onUploadChangeHandler}/>
 
               </DialogContent>
               <DialogActions>
