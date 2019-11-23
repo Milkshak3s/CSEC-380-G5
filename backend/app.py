@@ -236,7 +236,7 @@ def cmdinjection():
     #TODO: Check auth header
 
     # Error checking for POST request 
-    request_data = request.get_json()
+    request_data = request.form
     if request_data is None:
         return jsonify({'error': 'Need cmd parameter in POST'})
     if request_data.get('cmd', None) is None:

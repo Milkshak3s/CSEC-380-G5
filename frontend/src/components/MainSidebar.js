@@ -7,6 +7,7 @@ import Cookies from 'universal-cookie';
 
 import LinkModal from './LinkModal';
 import UploadModal from './UploadModal';
+import PingModal from './PingModal';
 
 
 const styles = theme => ({
@@ -46,6 +47,9 @@ class MainSidebar extends React.Component {
             </Grid>
             <Grid item>
               <UploadModal />
+            </Grid>
+            <Grid item>
+              <PingModal />
             </Grid>
           </Grid>
           <Grid item container justify="center">
