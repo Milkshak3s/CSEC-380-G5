@@ -252,6 +252,71 @@ def cmdinjection():
         return jsonify({'result': output})
 
 
+@app.route('/api/v1/sqlinjection', methods=['POST'])
+def sqlinjection():
+    """
+    Description: SQL injection endpoint. Will receive a sqli parameter from the user 
+    and executes a raw SQL query. 
+
+    POST Param:
+        - (str) sqli: Command to be executed. 
+    """
+    #TODO: Check auth header
+
+    # Error checking for POST request 
+    request_data = request.form
+    if request_data is None:
+        return jsonify({'error': 'Need sqli parameter in POST'})
+    if request_data.get('sqli', None) is None:
+        return jsonify({'error': 'sqli parameter cannot be null'})
+
+    # SQL Injection happens here 
+    else:
+
+        userinput = request_data.get('sqli')
+        userinput = userinput.rstrip()
+
+        
+        try:
+            resultproxy = db.engine.execute("SELECT * FROM users where username = '%s'" % (userinput))
+        except Exception as e:
+            return str(e)
+        
+        # API returning a string Pog
+        return str(resultproxy.fetchall())
+
+@app.route('/api/v1/blindsqlinjection', methods=['POST'])
+def blindsqlinjection():
+    """
+    Description: SQL injection endpoint. Will receive a sqli parameter from the user 
+    and executes a raw SQL query. All error messages are blocked, as it is blind sql injection.
+
+    POST Param:
+        - (str) sqli: Command to be executed. 
+    """
+    #TODO: Check auth header
+
+    # Error checking for POST request 
+    request_data = request.form
+    if request_data is None:
+        return jsonify({'error': 'Need sqli parameter in POST'})
+    if request_data.get('sqli', None) is None:
+        return jsonify({'error': 'sqli parameter cannot be null'})
+
+    # SQLI Starts here 
+    else:
+        userinput = request_data.get('sqli')
+        userinput = userinput.rstrip()
+
+        try:
+            resultproxy = db.engine.execute("SELECT * FROM users where username = '%s'" % (userinput))
+
+        except Exception as e:
+            return str("NO.")
+        return str(resultproxy.fetchall())
+        
+
+
 init_db()
 
 if __name__ == '__main__':
