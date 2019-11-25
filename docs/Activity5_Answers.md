@@ -1,5 +1,7 @@
 # Activity 5
 
+Here is a google drive link to a video of us performing classic sql injection: https://drive.google.com/open?id=1iveLgsZPioSxhBw9oaSDX_Qqm6gtlge8
+
 ### 1. How would you fix your code so that this issue is no longer present?
 
 The vulnerable code which causes the sqli injection is posted down below.
