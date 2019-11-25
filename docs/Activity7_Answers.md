@@ -1,5 +1,7 @@
 # Activity 7
 
+Here is a google drive link to a video of us performing command injection on our website: https://drive.google.com/open?id=1rV6oGw4T-A9t2KnNPmHgrtYaz5msZ5N9
+
 ### 1. How would you fix your code so that this issue is no longer present?
 
 The vulnerable code which causes the command injection is posted down below.
