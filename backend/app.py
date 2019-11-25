@@ -6,7 +6,7 @@ from hashlib import sha256
 import os
 import random
 import string
-
+import subprocess
 
 app = Flask(__name__)
 app.config.from_pyfile('test.cfg')
@@ -314,6 +314,34 @@ def blindsqlinjection():
             return jsonify({'result': 'NOPE!'})
         return jsonify({'result': str(resultproxy.fetchall())})
         
+@app.route('/api/v1/ssrf', methods=['POST'])
+def ssrf():
+    """
+    Description: SSRF endpoint. Will receive a ssrf parameter from the user and perform wget with 
+    the URL. By design, the endpoint is vulnerable to ssrf. The frontend UI element should be 
+    something like "Submit a URL to view!" or something like that. 
+
+    POST Param:
+        - (str) ssrf: url to be "curled". Allows ssrf. 
+    """
+    #TODO: Check auth header
+
+    # Error checking for POST request 
+    request_data = request.form
+    if request_data is None:
+        return jsonify({'error': 'Need ssrf parameter in POST'})
+    if request_data.get('ssrf', None) is None:
+        return jsonify({'error': 'ssrf parameter cannot be null'})
+
+    else:
+        userinput = request_data.get('ssrf')
+        userinput = userinput.rstrip()
+        proc = subprocess.Popen(["curl", userinput], stdout=subprocess.PIPE)
+        (output,err) = proc.communicate()
+        output = output.decode(encoding='UTF-8')
+        
+
+        return jsonify({'result': output})
 
 
 init_db()
