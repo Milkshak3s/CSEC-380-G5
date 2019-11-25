@@ -1,6 +1,7 @@
 # Activity 5
 
-Here is a google drive link to a video of us performing classic sql injection: https://drive.google.com/open?id=1iveLgsZPioSxhBw9oaSDX_Qqm6gtlge8
+Here is a google drive link to a video of us performing classic sql injection on our website: https://drive.google.com/open?id=1iveLgsZPioSxhBw9oaSDX_Qqm6gtlge8
+Here is a google drive link to a video of us performing blind sql injection on our website: https://drive.google.com/open?id=1tO6yH_06v9B_8I0-9bfM-ad7HoiMPWUa
 
 ### 1. How would you fix your code so that this issue is no longer present?
 
