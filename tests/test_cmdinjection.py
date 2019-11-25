@@ -4,12 +4,11 @@ import pytest
 def test_cmdinjection(url, cmd):
     data = {'cmd': cmd}
     #print("[DEBUG] Sending: ", data)
-    r = requests.post(url=url, json=data)
-
-    assert "Linux" in r.text
-    assert 200 == r.status_code
+    r = requests.post(url=url, data=data)
 
     #print(r.text)
+    assert "Linux" in r.text
+    assert 200 == r.status_code
 
 def main():
     url = "http://127.0.0.1:5000/api/v1/cmdinjection"

@@ -276,12 +276,13 @@ def sqlinjection():
         userinput = request_data.get('sqli')
         userinput = userinput.rstrip()
 
-            
+        
         try:
             resultproxy = db.engine.execute("SELECT * FROM users where username = '%s'" % (userinput))
         except Exception as e:
             return str(e)
-        #return "SELECT * FROM users where username = '%s'" % (userinput)
+        
+        # API returning a string Pog
         return str(resultproxy.fetchall())
 
 @app.route('/api/v1/blindsqlinjection', methods=['POST'])
@@ -304,7 +305,6 @@ def blindsqlinjection():
 
     # SQLI Starts here 
     else:
-
         userinput = request_data.get('sqli')
         userinput = userinput.rstrip()
 
