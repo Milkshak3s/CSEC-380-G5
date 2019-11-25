@@ -8,6 +8,8 @@ import Cookies from 'universal-cookie';
 import LinkModal from './LinkModal';
 import UploadModal from './UploadModal';
 import PingModal from './PingModal';
+import UsersDevModal from './UsersDevModal';
+import UsersModal from './UsersModal';
 
 
 const styles = theme => ({
@@ -50,6 +52,12 @@ class MainSidebar extends React.Component {
             </Grid>
             <Grid item>
               <PingModal />
+            </Grid>
+            <Grid item>
+              <UsersDevModal />
+            </Grid>
+            <Grid item>
+              <UsersModal />
             </Grid>
           </Grid>
           <Grid item container justify="center">
