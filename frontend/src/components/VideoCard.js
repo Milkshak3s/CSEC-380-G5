@@ -95,5 +95,4 @@ class VideoCard extends React.Component {
   }
 }
 
-
 export default withStyles(styles)(VideoCard);

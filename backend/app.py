@@ -216,10 +216,22 @@ def get_single_video(video_id):
         return jsonify(video_data)
 
     if request.method == "DELETE":
-        db.session.delete(matching_video)
-        db.session.commit()
-
-        return jsonify({'message': 'success'})
+        # check auth token in cookie
+        if "brickTubeAppUser" in request.cookies:
+            if "brickTubeApp" in request.cookies: 
+                auth_token = request.cookies.get("brickTubeApp")
+                auth_user = request.cookies.get("brickTubeAppUser")
+                if auth_user == str(check_token_user(auth_token)):
+                    db.session.delete(matching_video)
+                    db.session.commit()
+                    return jsonify({'message': 'success'})
+                else:
+                    return jsonify({'error': 'failure: token doesn\'t match user'})
+            else:
+                return jsonify({'error': 'failure: missing auth token'})
+        else:
+            return jsonify({'error': 'failure: missing brickTubeAppUser cookie'})
+            #return jsonify(str(request.cookies)) # for debugging, I get '{}'
 
     return jsonify({'error': 'invalid method'})
 
