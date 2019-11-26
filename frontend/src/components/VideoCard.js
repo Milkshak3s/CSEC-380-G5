@@ -16,6 +16,7 @@ import {
 } from "react-router-dom";
 
 import API from '../API';
+import Cookies from 'universal-cookie';
 
 
 const styles = theme => ({
@@ -44,8 +45,14 @@ class VideoCard extends React.Component {
 
   deleteVideo() {
     const { id } = this.props;
+    const cookies = new Cookies();
+    // Added line 50 ~ 55 (withCredentials thingy)
+    const auth_token = cookies.get('brickTubeApp');
+    const auth_user = cookies.get('brickTubeAppUser');
 
-    API.delete(`/videos/${id}`)
+    API.defaults.withCredentials = true;
+
+    API.delete(`/videos/${id}`, {withCredentials: true})
       .then(res => {
         const delRes = res.data;
         console.log(delRes);
