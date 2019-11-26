@@ -1,5 +1,8 @@
 # Activity 7
 
+Testing video can be found in the URL below: 
+https://drive.google.com/file/d/1uTra3DhRPCw8KGTDsPxKue0MVVqTHBso/view?usp=sharing
+
 ### 1. How would you fix your code so that this issue is no longer present?
 
 The vulnerable code which causes the command injection is posted down below.
