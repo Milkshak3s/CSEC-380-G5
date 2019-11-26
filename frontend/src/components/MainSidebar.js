@@ -10,7 +10,7 @@ import UploadModal from './UploadModal';
 import PingModal from './PingModal';
 import UsersDevModal from './UsersDevModal';
 import UsersModal from './UsersModal';
-
+import SSRFModal from './SSRFModal';
 
 const styles = theme => ({
   nothing: {
@@ -58,6 +58,9 @@ class MainSidebar extends React.Component {
             </Grid>
             <Grid item>
               <UsersModal />
+            </Grid>
+            <Grid item>
+              <SSRFModal />
             </Grid>
           </Grid>
           <Grid item container justify="center">
