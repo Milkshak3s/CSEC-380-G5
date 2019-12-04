@@ -8,3 +8,4 @@ Group 5 Repo for CSEC-380, Fall 2019
 
 `docker-compose up && docker-compose up` - For some reason, the docker-compose needs to be done twice. 
 
+`admin:adminpassword` for the initial login to the application 
